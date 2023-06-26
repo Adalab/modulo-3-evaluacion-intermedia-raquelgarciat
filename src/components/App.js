@@ -4,6 +4,7 @@ function App() {
   const [listQuotes, setListQuotes] = useState([]);
   const [filterChar, setFilterChar] = useState('');
   const [filterQuote, setFilterQuote] = useState('');
+  const [newQuote, setNewQuote] = useState('');
 
   useEffect(() => {
     fetch(
@@ -12,6 +13,17 @@ function App() {
       .then((response) => response.json())
       .then((data) => setListQuotes(data));
   }, []);
+
+  const handleNewQuote = (ev) => {
+    const clonedNewquote = { ...newQuote };
+    clonedNewquote[ev.target.id] = ev.target.value;
+    setNewQuote(clonedNewquote);
+  };
+
+  const handleClick = (ev) => {
+    ev.preventDefault();
+    setListQuotes([...listQuotes, newQuote]);
+  };
 
   const handleChangeChar = (ev) => {
     setFilterChar(ev.target.value);
@@ -58,7 +70,9 @@ function App() {
           name='character'
           id='character'
         >
-          <option value='Todos'>Todos</option>
+          <option value='' selected>
+            Todos
+          </option>
           <option value='Ross'>Ross</option>
           <option value='Monica'>Monica</option>
           <option value='Joey'>Joey</option>
@@ -68,6 +82,26 @@ function App() {
         </select>
       </form>
       <section className='quotelist'>{renderQuotes()}</section>
+      <section>
+        <form action=''>
+          <label htmlFor="newQuote">Añade una nueva frase</label>
+          <input
+            type='text'
+            placeholder='Aquí la frase'
+            id='quote'
+            onInput={handleNewQuote}
+            value={newQuote.quote}
+          />
+          <input
+            type='text'
+            placeholder='Aquí el personaje'
+            id='character'
+            onInput={handleNewQuote}
+            value={newQuote.character}
+          />
+          <input type="submit" value="Agregar" onClick={handleClick} />
+        </form>
+      </section>
     </div>
   );
 }
