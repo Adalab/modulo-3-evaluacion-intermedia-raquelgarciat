@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 function App() {
   const [listQuotes, setListQuotes] = useState([]);
   const [filterChar, setFilterChar] = useState('');
+  const [filterQuote, setFilterQuote] = useState('');
 
   useEffect(() => {
     fetch(
@@ -16,10 +17,16 @@ function App() {
     setFilterChar(ev.target.value);
   };
 
+  const handleChangeQuote = (ev) => {
+    setFilterQuote(ev.target.value);
+  };
+
   const renderQuotes = () => {
     return listQuotes
-      .filter((oneQuote) =>
-        oneQuote.character.toLowerCase().includes(filterChar.toLowerCase())
+      .filter(
+        (oneQuote) =>
+          oneQuote.character.toLowerCase().includes(filterChar.toLowerCase()) &&
+          oneQuote.quote.toLowerCase().includes(filterQuote.toLowerCase())
       )
       .map((oneQuote, index) => (
         <ul key={index} className='char_list'>
@@ -34,17 +41,32 @@ function App() {
   return (
     <div>
       <h1 className='title'>Frases de Friends</h1>
-      <label htmlFor='character'>Filtrar por personaje</label>
-      <select onChange={handleChangeChar}
-              value={filterChar} name='character' id='character'>
-        <option value='Todos'>Todos</option>
-        <option value='Ross'>Ross</option>
-        <option value='Monica'>Monica</option>
-        <option value='Joey'>Joey</option>
-        <option value='Phoebe'>Phoebe</option>
-        <option value='Chandler'>Chandler</option>
-        <option value='Rachel'>Rachel</option>
-      </select>
+      <form>
+        <label htmlFor='quote'>Filtrar por frase:</label>
+        <input
+          type='text'
+          placeholder='Escribe una frase'
+          onInput={handleChangeQuote}
+          value={filterQuote}
+          name='quote'
+          id='quote'
+        />
+        <label htmlFor='character'>Filtrar por personaje:</label>
+        <select
+          onChange={handleChangeChar}
+          value={filterChar}
+          name='character'
+          id='character'
+        >
+          <option value='Todos'>Todos</option>
+          <option value='Ross'>Ross</option>
+          <option value='Monica'>Monica</option>
+          <option value='Joey'>Joey</option>
+          <option value='Phoebe'>Phoebe</option>
+          <option value='Chandler'>Chandler</option>
+          <option value='Rachel'>Rachel</option>
+        </select>
+      </form>
       <section className='quotelist'>{renderQuotes()}</section>
     </div>
   );
