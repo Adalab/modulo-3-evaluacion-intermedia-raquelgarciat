@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import '../styles/App.css';
 
 function App() {
   const [listQuotes, setListQuotes] = useState([]);
@@ -43,17 +44,17 @@ function App() {
       .map((oneQuote, index) => (
         <ul key={index} className='char_list'>
           <li className='char_list-each'>
-            <span className='eachquote'>{oneQuote.quote}</span> -
-            <span className='eachchar'>{oneQuote.character}</span>
+            <span className='eachquote'>{oneQuote.quote}</span>
+            <span className='eachchar'> - {oneQuote.character}</span>
           </li>
         </ul>
       ));
   };
 
   return (
-    <div>
+    <div className='mainbody'>
       <h1 className='title'>Frases de Friends</h1>
-      <form>
+      <form className='formfilter'>
         <label htmlFor='quote'>Filtrar por frase:</label>
         <input
           type='text'
@@ -83,8 +84,8 @@ function App() {
       </form>
       <section className='quotelist'>{renderQuotes()}</section>
       <section>
-        <form action=''>
-          <label htmlFor="newQuote">Añade una nueva frase</label>
+        <form className='newform' action=''>
+          <label htmlFor='newQuote'>Añade una nueva frase</label>
           <input
             type='text'
             placeholder='Aquí la frase'
@@ -99,7 +100,7 @@ function App() {
             onInput={handleNewQuote}
             value={newQuote.character}
           />
-          <input type="submit" value="Agregar" onClick={handleClick} />
+          <input type='submit' value='Agregar' onClick={handleClick} />
         </form>
       </section>
     </div>
