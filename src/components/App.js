@@ -24,6 +24,10 @@ function App() {
   const handleClick = (ev) => {
     ev.preventDefault();
     setListQuotes([...listQuotes, newQuote]);
+    setNewQuote({
+      quote: '',
+      character: '',
+    });
   };
 
   const handleChangeChar = (ev) => {
@@ -53,7 +57,9 @@ function App() {
 
   return (
     <div className='mainbody'>
-      <h1 className='title'>Frases de Friends</h1>
+      <header>
+        <h1 className='title'>Frases de Friends</h1>
+      </header>
       <form className='formfilter'>
         <label htmlFor='quote'>Filtrar por frase:</label>
         <input
