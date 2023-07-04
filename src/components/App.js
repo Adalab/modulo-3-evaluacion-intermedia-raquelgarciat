@@ -5,7 +5,9 @@ function App() {
   const [listQuotes, setListQuotes] = useState([]);
   const [filterChar, setFilterChar] = useState('');
   const [filterQuote, setFilterQuote] = useState('');
-  const [newQuote, setNewQuote] = useState('');
+  const [newQuote, setNewQuote] = useState({quote: '',
+  character: ''});
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     fetch(
@@ -23,11 +25,16 @@ function App() {
 
   const handleClick = (ev) => {
     ev.preventDefault();
-    setListQuotes([...listQuotes, newQuote]);
-    setNewQuote({
-      quote: '',
-      character: '',
-    });
+    if (newQuote.quote === '' || newQuote.character === '') {
+      setErrorMsg('⇒⇒ Por favor, rellena los dos campos');
+    } else {
+      setListQuotes([...listQuotes, newQuote]);
+      setNewQuote({
+        quote: '',
+        character: '',
+      });
+      setErrorMsg('');
+    }
   };
 
   const handleChangeChar = (ev) => {
@@ -77,9 +84,7 @@ function App() {
           name='character'
           id='character'
         >
-          <option value='' selected>
-            Todos
-          </option>
+          <option value=''>Todos</option>
           <option value='Ross'>Ross</option>
           <option value='Monica'>Monica</option>
           <option value='Joey'>Joey</option>
@@ -108,6 +113,7 @@ function App() {
           />
           <input type='submit' value='Agregar' onClick={handleClick} />
         </form>
+        <div className='error_msg'>{errorMsg}</div>
       </section>
     </div>
   );
